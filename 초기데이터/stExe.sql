@@ -8,7 +8,7 @@ CREATE TABLE dept (
 CREATE TABLE emp (
   eno varchar2(4),
   ename varchar2(20),
-  job varchar2(6),
+  job varchar2(10),
   mgr varchar2(4),
   hdate date,
   sal number(5),
@@ -59,14 +59,6 @@ INSERT INTO SALGRADE VALUES (3,2000,2999);
 INSERT INTO SALGRADE VALUES (4,1000,1999);
 INSERT INTO SALGRADE VALUES (5,0,999);
 commit;
-
-
-
-DROP TABLE score;
-DROP TABLE course;
-DROP TABLE professor;
-DROP TABLE student;
-DROP TABLE scgrade;
 
 CREATE TABLE student (
   sno varchar2(8), 
