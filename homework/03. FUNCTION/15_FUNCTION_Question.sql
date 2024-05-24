@@ -1,45 +1,18 @@
---<단일 행 함수를 이용하세요>
---1) 교수들이 부임한 달에 근무한 일수는 몇 일인지 검색하세요
-SELECT PNAME 
-	 , "SECTION" 
-	 , ORDERS 
-	 , HIREDATE 
-	 , LAST_DAY(HIREDATE)-HIREDATE || '일' AS "교수들이 부임한 달에 근무한 일수"
+--1) 학생의 평균 평점을 다음 형식에 따라 소수점 이하 2자리까지 검색하세요
+--'OOO 학생의 평균 평점은 O.OO입니다.'
+SELECT SNAME || '학생의 평균 평점은 ' || ROUND(AVR, 2) || '입니다.' AS "OOO 학생의 평균 평점은 O.OO입니다."
+    FROM STUDENT;
+
+--2) 교수의 부임일을 다음 형식으로 표현하세요
+--'OOO 교수의 부임일은 YYYY년 MM월 DD일입니다.'
+   
+SELECT PNAME || TO_CHAR(HIREDATE, '"교수의 부임일은" YYYY "년" MM "월" DD "일입니다."')
+		AS "OOO 교수의 부임일은 YYYY년 MM월 DD일입니다."
 	FROM PROFESSOR;
 
-
---2) 교수들의 오늘까지 근무한 주가 몇 주인지 검색하세요
-SELECT PNAME 
-	 , "SECTION" 
-	 , ORDERS 
-	 , HIREDATE 
-	 , FLOOR((SYSDATE -HIREDATE) / 7) || '주' AS "교수들의 오늘까지 근무한 주"
-	FROM PROFESSOR;
-
---3) 1991년에서 1995년 사이에 부임한 교수를 검색하세요
-SELECT PNAME 
-	 , "SECTION" 
-	 , ORDERS 
-	 , HIREDATE  
-	FROM PROFESSOR
-	WHERE HIREDATE BETWEEN TO_DATE('19910101', 'YYYYMMDD') AND TO_DATE('19951231', 'YYYYMMDD'); 
-
-
---4) 학생들의 4.5 환산 평점을 검색하세요(단 소수 이하 둘째자리까지)
-SELECT SNAME
-	 , SYEAR 
-	 , MAJOR 
-	 , ROUND(AVR * 4.5 / 4.0 , 2) AS "4.5 환산 평점"
-	FROM STUDENT;
-
---5) 사원들의 오늘까지 근무 기간이 몇 년 몇 개월 며칠인지 검색하세요
-SELECT ENAME 
-	 , HDATE 
-	 , FLOOR(MONTHS_BETWEEN(SYSDATE, HDATE)/ 12) || ' 년 ' ||
-	   FLOOR(MOD(MONTHS_BETWEEN(SYSDATE, HDATE), 12)) || ' 개월 ' || 
-	   FLOOR(SYSDATE - ADD_MONTHS(HDATE, FLOOR(MONTHS_BETWEEN(SYSDATE, HDATE)))) || ' 일 '
-	   AS "사원들의 오늘까지 근무 기간"
-	 FROM EMP;
-
-
-
+--3) 교수중에 3월에 부임한 교수의 명단을 검색하세요
+SELECT PNO
+     , PNAME
+     , HIREDATE
+    FROM PROFESSOR
+    WHERE TO_CHAR(HIREDATE, 'MM') = '03';
