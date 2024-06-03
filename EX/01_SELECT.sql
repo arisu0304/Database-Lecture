@@ -461,45 +461,5 @@ SELECT ENO AS "사원번호"
 	FROM  EMP 
 	WHERE JOB IN ('개발', '경영')
 		AND COMM >= 700;
-
-
-
-
-
-
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
- 	 
- 	 
- 	 
  	 
  	 

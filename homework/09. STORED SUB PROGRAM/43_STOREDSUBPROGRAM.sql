@@ -1,0 +1,76 @@
+--1) 전공과 전공별 기말고사 평균 점수를 갖는 테이블
+--   T_MAJOR_AVG_RES를 생성하고 SCORE테이블과 STUDENT테이블을 참조해서
+--   T_MAJOR_AVG_RES에 데이터를 저장하는 프로시저 P_MAJOR_AVG_RES를 생성하세요.
+
+CREATE TABLE T_MAJOR_AVG_RES(
+     MAJOR VARCHAR2(20),
+     AVG_RES NUMBER
+);
+
+CREATE OR REPLACE PROCEDURE P_MAJOR_AVG_RES
+IS 
+CURSOR CUT_MAJOR_AVG_RES IS
+		SELECT SST.MAJOR
+             , A.AVG_RES
+            FROM (
+            SELECT
+                ST.SNO
+             , ST.SNAME
+             , AVG(SC.RESULT) AS AVG_RES
+			 FROM STUDENT ST
+             JOIN SCORE SC
+             ON ST.SNO = SC.SNO
+             GROUP BY ST.SNO, ST.SNAME) A
+             JOIN STUDENT SST
+             ON SST.SNO = A.SNO 
+             AND SST.SNAME = A.SNAME;
+             
+MAJOR_AVG_RES_ROW T_MAJOR_AVG_RES%ROWTYPE;
+
+BEGIN 
+    DELETE FROM T_MAJOR_AVG_RES;
+    FOR MAJOR_AVG_RES_ROW IN CUT_MAJOR_AVG_RES LOOP
+    INSERT INTO T_MAJOR_AVG_RES
+    VALUES MAJOR_AVG_RES_ROW;
+    COMMIT;
+    END LOOP;
+END;
+/
+
+EXEC P_MAJOR_AVG_RES;
+
+SELECT *
+FROM T_MAJOR_AVG_RES;
+
+--2) 교수들은 부임일로부터 5년마다 안식년을 갖습니다.
+--   교수들의 오늘날짜까지의 안식년 횟수를 리턴하는 함수 F_GET_VACATION_CNT를 구현하세요.
+
+
+CREATE OR REPLACE FUNCTION F_GET_VACATION_CNT(
+    DT DATE
+)
+RETURN NUMBER
+IS
+BEGIN
+    RETURN TRUNC(MONTHS_BETWEEN(SYSDATE, DT) / 60) ;
+END;
+/
+
+SELECT PNO
+     , PNAME
+     , F_GET_VACATION_CNT(HIREDATE) AS "안식년 횟수"
+FROM PROFESSOR;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
